@@ -11,6 +11,7 @@ so no one is misled about stock and there's no fake "sold out".
 | `Bestelklik` | someone clicks Bestel on a product | `product`, `variant` |
 | `Wachtlijst` | someone submits the waitlist form | `product`, `variant`, `gelegenheid`, `verzending` |
 | `Gedeeld` | someone shares after signing up | `kanaal` |
+| `Onthuld` | someone presses Laat zien to uncensor the product (once per session) | `variant` |
 | `Nooit meer` | someone adds an address to the opt-out list | — |
 
 Each submission also lands in Netlify Forms (`wachtlijst`), with the email, product, price variant, price, occasion and delivery choice.
@@ -26,6 +27,15 @@ Every visitor gets one price variant per session (`config.js`):
 | Vrijgezellenpakket | € 49,95 | € 99,95 |
 
 Force a variant with `?prijs=a` or `?prijs=b`, for example to link a specific audience to a specific price.
+
+### Censored by default
+
+The product is shown pixelated until the visitor presses **Laat zien**, which uncensors every illustration on the page. The share image (`og.png`) stays pixelated.
+`?onthul=1` opens the page uncensored, which is handy for a screen recording of the reveal.
+The reveal rate (`Onthuld` / visitors) is a free extra signal of curiosity.
+
+Pixelation lowers the risk on social platforms but doesn't remove it: automated moderation on Instagram and TikTok can still flag a pixelated phallic shape.
+For posts, lead with the box, the letterbox and the reveal moment.
 
 ### Go / no-go (after at least 300 visitors per variant, 3–4 weeks)
 

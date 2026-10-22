@@ -66,6 +66,27 @@
   if (cfg.launchLabel) $all("[data-launch]").forEach(function (el) { el.textContent = cfg.launchLabel; });
   if (cfg.earlyBirdDiscount) $all("[data-discount]").forEach(function (el) { el.textContent = cfg.earlyBirdDiscount; });
 
+  /* ---------- censor / reveal ---------- */
+  var revealButtons = $all("[data-reveal]");
+  var revealedOnce = false;
+  function setRevealed(on) {
+    document.documentElement.classList.toggle("uncensored", on);
+    revealButtons.forEach(function (b) {
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.textContent = on ? "Pixels terug" : "Laat zien";
+    });
+    if (on && !revealedOnce) {
+      revealedOnce = true;
+      track("Onthuld", { variant: variant });
+    }
+  }
+  revealButtons.forEach(function (b) {
+    b.addEventListener("click", function () {
+      setRevealed(!document.documentElement.classList.contains("uncensored"));
+    });
+  });
+  if (params.get("onthul") === "1") setRevealed(true);
+
   /* ---------- form submission ---------- */
   function encode(data) {
     return Object.keys(data).map(function (k) {
