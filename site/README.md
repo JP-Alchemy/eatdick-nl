@@ -16,17 +16,16 @@ so no one is misled about stock and there's no fake "sold out".
 
 Each submission also lands in Netlify Forms (`wachtlijst`), with the email, product, price variant, price, occasion and delivery choice.
 
-### Price test
+### Prices
 
-Every visitor gets one price variant per session (`config.js`):
+Every visitor sees the premium prices (`config.js`). The original A/B test against half prices was dropped on 22 Oct 2026.
+Events still carry `variant: b`, so the data stays comparable if the test comes back (see the comment in `config.js`).
 
-| Product | Variant a | Variant b (premium) |
-| --- | --- | --- |
-| De D | € 16,95 | € 33,95 |
-| Mini D's | € 12,95 | € 25,95 |
-| Vrijgezellenpakket | € 49,95 | € 99,95 |
-
-Force a variant with `?prijs=a` or `?prijs=b`, for example to link a specific audience to a specific price.
+| Product | Price |
+| --- | --- |
+| De D | € 33,95 |
+| Mini D's | € 25,95 |
+| Vrijgezellenpakket | € 99,95 |
 
 ### Censored by default
 
@@ -37,7 +36,7 @@ The reveal rate (`Onthuld` / visitors) is a free extra signal of curiosity.
 Pixelation lowers the risk on social platforms but doesn't remove it: automated moderation on Instagram and TikTok can still flag a pixelated phallic shape.
 For posts, lead with the box, the letterbox and the reveal moment.
 
-### Go / no-go (after at least 300 visitors per variant, 3–4 weeks)
+### Go / no-go (after at least 300 visitors, 3–4 weeks)
 
 | Metric | Weak | OK | Strong |
 | --- | --- | --- | --- |
@@ -45,14 +44,14 @@ For posts, lead with the box, the letterbox and the reveal moment.
 | Clickers who leave an email | < 25% | 25–50% | > 50% |
 | Emails in total | < 100 | 100–300 | > 300 |
 
-Decision rule: go ahead if variant **b** gets at least 150 emails, or if b's revenue per visitor (click rate × price) beats a's.
-Under 100 emails in total after 4 weeks: stop.
+Decision rule: go ahead at 150 or more emails at premium prices.
+Under 100 emails in total after 4 weeks: stop. In between, look at the click and email rates before deciding.
 
 ## Run locally
 
 ```sh
 cd site && python3 -m http.server 8000
-# open http://localhost:8000/?prijs=b
+# open http://localhost:8000/
 ```
 
 Form posts only work once the site is deployed on Netlify (or when `formEndpoint` points at another service).
@@ -80,7 +79,7 @@ Form posts only work once the site is deployed on Netlify (or when `formEndpoint
 | --- | --- |
 | `index.html` | the page, waitlist dialog, opt-out form, product illustrations |
 | `styles.css` | all styles. Palette: blush `#FFE6F0`, pink `#FF5C9D`, chocolate `#2B150D`, brass `#C9973A`, door green `#1D4A3A` |
-| `app.js` | price variant, dialog, events, form submission, sharing |
+| `app.js` | prices, dialog, events, form submission, sharing |
 | `config.js` | everything you might tweak for the test |
 | `privacy.html` | privacy statement in plain Dutch |
 | `fonts/` | self-hosted Bagel Fat One and Schibsted Grotesk (OFL). No calls to Google Fonts, which is better for GDPR |

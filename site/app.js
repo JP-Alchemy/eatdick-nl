@@ -44,7 +44,7 @@
   }
 
   /* ---------- price variant ---------- */
-  var variants = cfg.variants || { a: { single: 16.95, mini: 12.95, party: 49.95 } };
+  var variants = cfg.variants || { b: { single: 33.95, mini: 25.95, party: 99.95 } };
   var params = new URLSearchParams(window.location.search);
   var forced = (params.get("prijs") || "").toLowerCase();
   var variant = variants[forced] ? forced : safeGet(window.sessionStorage, "ed-variant");

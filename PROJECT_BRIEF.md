@@ -27,7 +27,7 @@ It's modelled on [eatdick.ca](https://eatdick.ca/) (Vancouver, CA$15–18). JP o
 1. **Fake-door test with honest wording.** Real-looking shop and prices. "Bestel" opens a waitlist ("De eerste batch komt eraan").
    **No fake "sold out"**, because the ACM treats false scarcity as misleading ([NOS](https://nos.nl/l/2313059), [ACM vs SHEIN](https://www.acm.nl/nl/publicaties/acm-en-europese-consumententoezichthouders-shein-moet-website-aanpassen)).
    A top bar says "Nog niet te koop".
-2. **Price A/B test.** Variant a: €16,95 / €12,95 / €49,95. Variant b (premium, doubled): €33,95 / €25,95 / €99,95. Force a variant with `?prijs=a|b`.
+2. **Premium prices only:** €33,95 / €25,95 / €99,95. The A/B test against half prices (€16,95 / €12,95 / €49,95) was dropped on 22 Oct 2026, which means the test can no longer show whether the lower price would sell more. Events still log `variant: b`; `config.js` explains how to bring variant a back.
 3. **Show the real shape, pixelated by default.** A "Laat zien" button reveals it. The share image stays pixelated. The art is a veiny chocolate cartoon, never a photo.
    `?onthul=1` opens the page uncensored (for screen recordings).
 4. **Outsource production.** A chocolatier pours and ideally packs. A fulfilment partner ships. No hardware packing automation, since volume is far too low.
@@ -62,7 +62,7 @@ There's no Dutch-language brand in this niche. An Australian seller ships "Eat a
 
 ## Go / no-go for the demand test
 
-After at least 300 visitors per price variant (3–4 weeks):
+After at least 300 visitors (3–4 weeks):
 
 | Metric | Weak | OK | Strong |
 | --- | --- | --- | --- |
@@ -70,7 +70,7 @@ After at least 300 visitors per price variant (3–4 weeks):
 | Clickers who leave an email | < 25% | 25–50% | > 50% |
 | Emails total | < 100 | 100–300 | > 300 |
 
-- **Go:** variant b gets at least 150 emails, **or** b's revenue per visitor beats a's.
+- **Go:** at least 150 emails at premium prices. Between 100 and 150, look at the click and email rates before deciding.
 - **Stop:** under 100 emails total after 4 weeks. Then sell the domain or let it rest. No KvK, moulds or NVWA paperwork until real demand shows.
 - Only about 3% of waitlist signups typically convert within a week, so 300 emails might mean only 10–30 first orders.
 
@@ -89,7 +89,7 @@ After at least 300 visitors per price variant (3–4 weeks):
 - [ ] Deploy on Netlify, point eatdick.nl DNS, set up Plausible goals + custom properties
 - [ ] Replace `hallo@eatdick.nl` with a working mailbox
 - [ ] Shoot 3–5 short videos: box through the letterbox, the reveal, a bachelorette unboxing (mock-up)
-- [ ] Post organically, aiming for ≥300 visitors per variant by mid-December
+- [ ] Post organically, aiming for ≥300 visitors by mid-December
 - [ ] Meanwhile, get quotes from 2–3 Dutch/Belgian chocolatiers (custom mould, cost per piece, packing) and one fulfilment partner
 - [ ] Check Mollie/Shopify Payments policy on novelty adult products
 - [ ] Early January: go/no-go decision using the table above
