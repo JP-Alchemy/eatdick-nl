@@ -1,4 +1,6 @@
+# The site lives in site/; publish is relative to base.
 [build]
+  base = "site"
   publish = "."
 
 [[headers]]

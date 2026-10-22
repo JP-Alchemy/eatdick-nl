@@ -51,7 +51,7 @@ Under 100 emails in total after 4 weeks: stop.
 ## Run locally
 
 ```sh
-python3 -m http.server 8000
+cd site && python3 -m http.server 8000
 # open http://localhost:8000/?prijs=b
 ```
 
@@ -59,7 +59,7 @@ Form posts only work once the site is deployed on Netlify (or when `formEndpoint
 
 ## Deploy (about 15 minutes)
 
-1. **Netlify:** New site → Import from GitHub → this repo. There's no build command, and the publish directory is `.`.
+1. **Netlify:** New site → Import from GitHub → this repo, branch `main`. `netlify.toml` in the repo root sets the base directory to `site/` with no build command, so leave the build settings empty.
 2. **Forms:** Netlify detects the `wachtlijst` and `nooit-meer` forms on the first deploy. Turn on email notifications under Site → Forms.
    Check the current free-tier submission limit. If you outgrow it, set `formEndpoint` in `config.js` to a Formspree/Brevo URL.
 3. **Domain:** Site → Domain management → add `eatdick.nl`. Then point the DNS at Netlify; HTTPS is automatic.
@@ -85,3 +85,4 @@ Form posts only work once the site is deployed on Netlify (or when `formEndpoint
 | `privacy.html` | privacy statement in plain Dutch |
 | `fonts/` | self-hosted Bagel Fat One and Schibsted Grotesk (OFL). No calls to Google Fonts, which is better for GDPR |
 | `og.png` | share image for WhatsApp and socials |
+| `../netlify.toml` | Netlify config (base `site/`, security headers, font caching) |
