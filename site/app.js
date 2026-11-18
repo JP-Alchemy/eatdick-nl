@@ -1,7 +1,7 @@
 /* eat dick — demand test logic
  * 1. assigns a price variant (a/b) per session and renders prices
  * 2. opens the waitlist dialog when someone clicks "Bestel"
- * 3. records events in Plausible and submits forms (Netlify Forms or a custom endpoint)
+ * 3. records events in Plausible and submits forms (Web3Forms or any JSON endpoint)
  */
 (function () {
   "use strict";
@@ -32,11 +32,17 @@
   window.plausible = window.plausible || function () {
     (window.plausible.q = window.plausible.q || []).push(arguments);
   };
-  if (cfg.plausibleDomain) {
+  window.plausible.init = window.plausible.init || function (o) { window.plausible.o = o || {}; };
+  if (cfg.plausibleScript || cfg.plausibleDomain) {
     var s = document.createElement("script");
     s.defer = true;
-    s.dataset.domain = cfg.plausibleDomain;
-    s.src = "https://plausible.io/js/script.js";
+    if (cfg.plausibleScript) {
+      s.src = cfg.plausibleScript; // per-site script (pa-XXXX.js)
+      window.plausible.init();
+    } else {
+      s.dataset.domain = cfg.plausibleDomain; // classic script
+      s.src = "https://plausible.io/js/script.js";
+    }
     document.head.appendChild(s);
   }
   function track(name, props) {
@@ -88,11 +94,10 @@
   if (params.get("onthul") === "1") setRevealed(true);
 
   /* ---------- form submission ---------- */
-  function encode(data) {
-    return Object.keys(data).map(function (k) {
-      return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-    }).join("&");
-  }
+  var SUBJECTS = {
+    wachtlijst: "Wachtlijst eatdick.nl",
+    "nooit-meer": "Nooit-meer-lijst eatdick.nl",
+  };
 
   function formData(form) {
     var out = {};
@@ -103,18 +108,23 @@
   function submit(form) {
     var data = formData(form);
     if (data["bot-field"]) return Promise.resolve(); // honeypot tripped: pretend success
-    if (!cfg.formEndpoint || cfg.formEndpoint === "netlify") {
-      return fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode(data),
-      }).then(function (r) { if (!r.ok) throw new Error(r.status); });
+    delete data["bot-field"];
+    if (!cfg.formEndpoint) return Promise.reject(new Error("no formEndpoint configured"));
+    if (cfg.web3formsKey) {
+      data.access_key = cfg.web3formsKey;
+      data.subject = SUBJECTS[data.formulier] || "Formulier eatdick.nl";
+      data.from_name = "eatdick.nl";
+      data.botcheck = false;
     }
     return fetch(cfg.formEndpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(data),
-    }).then(function (r) { if (!r.ok) throw new Error(r.status); });
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (body) {
+        if (!r.ok || body.success === false) throw new Error(body.message || r.status);
+      });
+    });
   }
 
   function setStatus(form, text, isError) {

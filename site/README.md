@@ -14,7 +14,8 @@ so no one is misled about stock and there's no fake "sold out".
 | `Onthuld` | someone presses Laat zien to uncensor the product (once per session) | `variant` |
 | `Nooit meer` | someone adds an address to the opt-out list | — |
 
-Each submission also lands in Netlify Forms (`wachtlijst`), with the email, product, price variant, price, occasion and delivery choice.
+Each submission is also emailed to you by Web3Forms (subject `Wachtlijst eatdick.nl`), with the email, product, price variant, price, occasion and delivery choice.
+Opt-outs arrive with the subject `Nooit-meer-lijst eatdick.nl`. Your mailbox is the list: filter both subjects into their own folders.
 
 ### Prices
 
@@ -54,17 +55,48 @@ cd site && python3 -m http.server 8000
 # open http://localhost:8000/
 ```
 
-Form posts only work once the site is deployed on Netlify (or when `formEndpoint` points at another service).
+Forms post to Web3Forms from localhost too, as soon as `web3formsKey` is set in `config.js`. Each test submission counts towards the free 250 a month.
 
-## Deploy (about 15 minutes)
+## Deploy (about 20 minutes)
 
-1. **Netlify:** New site → Import from GitHub → this repo, branch `main`. `netlify.toml` in the repo root sets the base directory to `site/` with no build command, so leave the build settings empty.
-2. **Forms:** Netlify detects the `wachtlijst` and `nooit-meer` forms on the first deploy. Turn on email notifications under Site → Forms.
-   Check the current free-tier submission limit. If you outgrow it, set `formEndpoint` in `config.js` to a Formspree/Brevo URL.
-3. **Domain:** Site → Domain management → add `eatdick.nl`. Then point the DNS at Netlify; HTTPS is automatic.
-4. **Analytics:** create the `eatdick.nl` site on [plausible.io](https://plausible.io). Under Site settings → Custom properties,
-   add `product`, `variant`, `gelegenheid`, `verzending` and `kanaal`, then add the four events above as Goals.
+Hosting is GitHub Pages, deployed by `.github/workflows/pages.yml` on every push to `main` that touches `site/`.
+Forms go to [Web3Forms](https://web3forms.com) (free: 250 submissions a month).
+
+1. **Pages access:** Pages on a private repo needs GitHub Pro (or make the repo public). Then Settings → Pages → Build and deployment → Source: **GitHub Actions**.
+2. **Deploy:** push to `main` (or Actions → "Deploy site to GitHub Pages" → Run workflow). The site appears at `https://jp-alchemy.github.io/eatdick-nl/`.
+3. **Domain:** Settings → Pages → Custom domain: `eatdick.nl` → Save. Point DNS at GitHub (records below), wait for the DNS check to go green, then tick **Enforce HTTPS**.
+   With an Actions deploy, GitHub ignores `site/CNAME`; the setting is what counts. The file is there as a record.
+4. **Forms:** on web3forms.com, enter the mailbox that should receive signups and confirm the access key it emails you.
+   Paste the key into `web3formsKey` in `config.js` and push. In the Web3Forms dashboard, set the form's data retention to **7 days** (the privacy page promises that).
+   Send one test signup and one test opt-out, then delete them from your mailbox.
+5. **Analytics:** create the `eatdick.nl` site on [plausible.io](https://plausible.io). If it gives you a per-site script (`pa-XXXX.js`), paste that URL into `plausibleScript` in `config.js`.
+   Under Site settings → Custom properties, add `product`, `variant`, `gelegenheid`, `verzending` and `kanaal`, then add the five events above as Goals.
    Plausible is cookieless, so you don't need a cookie banner.
+
+### DNS at Namecheap (Advanced DNS)
+
+Delete the old records first: the URL Redirect on `@`, the `A @ 75.2.60.5` (Netlify) and the `CNAME www` to Netlify. Then add:
+
+| Type | Host | Value |
+| --- | --- | --- |
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| AAAA | @ | 2606:50c0:8000::153 |
+| AAAA | @ | 2606:50c0:8001::153 |
+| AAAA | @ | 2606:50c0:8002::153 |
+| AAAA | @ | 2606:50c0:8003::153 |
+| CNAME | www | jp-alchemy.github.io. |
+
+GitHub redirects `www.eatdick.nl` to `eatdick.nl` once both resolve. Check with `dig +short eatdick.nl` and `dig +short www.eatdick.nl`.
+Optional, against domain takeover: verify `eatdick.nl` under your GitHub profile → Settings → Pages (it gives you a TXT record to add).
+
+### What Pages can't do
+
+GitHub Pages doesn't let you set response headers, so the old Netlify security headers are gone. The referrer policy is set with a `<meta>` tag instead.
+Fonts get GitHub's default 10-minute cache, which is fine at this traffic.
+GitHub's terms say Pages isn't meant for running an online business. A waitlist page is fine; the real shop (checkout, payments) goes elsewhere if this is a go.
 
 ## Before you send real traffic
 
@@ -79,9 +111,11 @@ Form posts only work once the site is deployed on Netlify (or when `formEndpoint
 | --- | --- |
 | `index.html` | the page, waitlist dialog, opt-out form, product illustrations |
 | `styles.css` | all styles. Palette: blush `#FFE6F0`, pink `#FF5C9D`, chocolate `#2B150D`, brass `#C9973A`, door green `#1D4A3A` |
-| `app.js` | prices, dialog, events, form submission, sharing |
+| `app.js` | prices, dialog, events, form submission (Web3Forms), sharing |
 | `config.js` | everything you might tweak for the test |
 | `privacy.html` | privacy statement in plain Dutch |
 | `fonts/` | self-hosted Bagel Fat One and Schibsted Grotesk (OFL). No calls to Google Fonts, which is better for GDPR |
 | `og.png` | share image for WhatsApp and socials |
-| `../netlify.toml` | Netlify config (base `site/`, security headers, font caching) |
+| `CNAME` | custom domain record for GitHub Pages |
+| `.nojekyll` | tells Pages to serve the files as they are |
+| `../.github/workflows/pages.yml` | deploys `site/` to GitHub Pages |

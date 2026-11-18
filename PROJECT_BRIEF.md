@@ -1,6 +1,6 @@
 # eatdick.nl: project brief
 
-Last updated: 22 October 2026. Owner: JP Bothma (GitHub: JP-Alchemy).
+Last updated: 18 November 2026. Owner: JP Bothma (GitHub: JP-Alchemy).
 
 ## What it is
 
@@ -18,7 +18,7 @@ It's modelled on [eatdick.ca](https://eatdick.ca/) (Vancouver, CA$15–18). JP o
 | Market research + cost model | Done. Report: https://claude.ai/artifact/8w7p657F7L6SMp5U9QwtBb |
 | Demand-test website | Built (static HTML/CSS/JS), in `site/` |
 | GitHub repo | Done (22 Oct 2026): `JP-Alchemy/eatdick-nl`, branch `main`, with the original commit history |
-| Deploy | **To do:** Netlify + eatdick.nl DNS + Plausible (steps in `site/README.md`) |
+| Deploy | **To do:** GitHub Pages + eatdick.nl DNS + Web3Forms key + Plausible (steps in `site/README.md`). Netlify dropped 18 Nov 2026 |
 | Traffic + test run | Not started. Window: Nov–Dec 2026 (Sinterklaas season) |
 | Decision | Early January 2027, then launch for Valentine's Day 2027 if it's a go |
 
@@ -33,7 +33,11 @@ It's modelled on [eatdick.ca](https://eatdick.ca/) (Vancouver, CA$15–18). JP o
 4. **Outsource production.** A chocolatier pours and ideally packs. A fulfilment partner ships. No hardware packing automation, since volume is far too low.
 5. **Harassment is handled in the product:** "from me" as default for launch, sender details kept, a "nooit-meer-lijst" address opt-out, 18+ only, and an abuse policy ("Anoniem, maar niet gemeen").
    The seller stays legally responsible; outsourcing complaint handling doesn't change that.
-6. **Privacy-friendly stack:** Plausible (cookieless, EU, no cookie banner), self-hosted fonts (no Google Fonts), Netlify Forms.
+6. **Privacy-friendly stack:** Plausible (cookieless, EU, no cookie banner), self-hosted fonts (no Google Fonts).
+7. **Hosting on GitHub Pages, forms via Web3Forms** (18 Nov 2026, replacing Netlify). Web3Forms free: 250 submissions/month, emailed to JP's mailbox, retention set to 7 days; US servers, disclosed on the privacy page.
+   Chosen because the EU form backends' free tiers are too small for the test: Forminit (Ireland) 100/month and 1 form, rejects overflow; Form.taxi (Austria) 40/month.
+   If signups pass ~200/month, move to Web3Forms Pro ($12/month) or a Cloudflare Worker + D1 in the EU (`formEndpoint` in `config.js` takes any JSON endpoint).
+   Pages on the private repo needs GitHub Pro ($4/month), or the repo goes public.
 
 ## Key numbers (from `cost_model.py`)
 
@@ -86,7 +90,7 @@ After at least 300 visitors (3–4 weeks):
 ## Next steps
 
 - [x] Create the private repo `JP-Alchemy/eatdick-nl` and push the code
-- [ ] Deploy on Netlify, point eatdick.nl DNS, set up Plausible goals + custom properties
+- [ ] Deploy on GitHub Pages, point eatdick.nl DNS, add the Web3Forms key, set up Plausible goals + custom properties
 - [ ] Replace `hallo@eatdick.nl` with a working mailbox
 - [ ] Shoot 3–5 short videos: box through the letterbox, the reveal, a bachelorette unboxing (mock-up)
 - [ ] Post organically, aiming for ≥300 visitors by mid-December
@@ -122,4 +126,7 @@ After at least 300 visitors (3–4 weeks):
 - [Rijksoverheid: Wet seksuele misdrijven](https://www.rijksoverheid.nl/actueel/nieuws/2024/03/20/nieuwe-wet-aanpak-seksuele-misdrijven-gaat-in-per-1-juli-2024)
 - [KVK: trust signals for webshops](https://www.kvk.nl/veilig-zakendoen/kijk-mijn-webshop-deugt/)
 - [SIDN: trust and .nl](https://www.sidn.nl/en/news-and-blogs/trust-is-good-for-turnover-and-margins)
+- [Web3Forms pricing](https://web3forms.com/pricing) and [FAQ: servers, storage](https://docs.web3forms.com/getting-started/faq)
+- [GitHub Pages limits and plans](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)
+- [Forminit pricing](https://forminit.com/pricing)
 - [Creative Review: Tony's Chocolonely branding](https://www.creativereview.co.uk/tonys-chocolonely-branding-chocolate/)
