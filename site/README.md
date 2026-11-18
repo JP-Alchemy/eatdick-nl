@@ -62,7 +62,7 @@ Forms post to Web3Forms from localhost too, as soon as `web3formsKey` is set in 
 Hosting is GitHub Pages, deployed by `.github/workflows/pages.yml` on every push to `main` that touches `site/`.
 Forms go to [Web3Forms](https://web3forms.com) (free: 250 submissions a month).
 
-1. **Pages access:** Pages on a private repo needs GitHub Pro (or make the repo public). Then Settings → Pages → Build and deployment → Source: **GitHub Actions**.
+1. **Pages access:** the repo is private, so Pages needs GitHub Pro on your account. Then Settings → Pages → Build and deployment → Source: **GitHub Actions**.
 2. **Deploy:** push to `main` (or Actions → "Deploy site to GitHub Pages" → Run workflow). The site appears at `https://jp-alchemy.github.io/eatdick-nl/`.
 3. **Domain:** Settings → Pages → Custom domain: `eatdick.nl` → Save. Point DNS at GitHub (records below), wait for the DNS check to go green, then tick **Enforce HTTPS**.
    With an Actions deploy, GitHub ignores `site/CNAME`; the setting is what counts. The file is there as a record.

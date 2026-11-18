@@ -37,7 +37,7 @@ It's modelled on [eatdick.ca](https://eatdick.ca/) (Vancouver, CA$15–18). JP o
 7. **Hosting on GitHub Pages, forms via Web3Forms** (18 Nov 2026, replacing Netlify). Web3Forms free: 250 submissions/month, emailed to JP's mailbox, retention set to 7 days; US servers, disclosed on the privacy page.
    Chosen because the EU form backends' free tiers are too small for the test: Forminit (Ireland) 100/month and 1 form, rejects overflow; Form.taxi (Austria) 40/month.
    If signups pass ~200/month, move to Web3Forms Pro ($12/month) or a Cloudflare Worker + D1 in the EU (`formEndpoint` in `config.js` takes any JSON endpoint).
-   Pages on the private repo needs GitHub Pro ($4/month), or the repo goes public.
+   The repo stays private, so JP pays for GitHub Pro ($4/month) to get Pages (decided 18 Nov 2026).
 
 ## Key numbers (from `cost_model.py`)
 
