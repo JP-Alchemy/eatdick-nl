@@ -3,13 +3,20 @@
  * Everything you might want to change for the demand test lives here.
  */
 window.EATDICK_CONFIG = {
-  // Plausible Analytics (cookieless, EU-hosted). Leave empty to disable.
+  // Plausible Analytics (cookieless, EU-hosted). Leave both empty to disable.
+  // New Plausible sites get a per-site script: paste its URL from
+  // Site settings -> Site installation (https://plausible.io/js/pa-XXXX.js).
+  // If plausibleScript is empty, the classic script.js + plausibleDomain is used.
+  plausibleScript: "",
   plausibleDomain: "eatdick.nl",
 
-  // Where waitlist + opt-out submissions go.
-  //  "netlify"  -> Netlify Forms (zero setup when hosted on Netlify)
-  //  any URL    -> POSTs JSON to that endpoint (Formspree, a Worker, etc.)
-  formEndpoint: "netlify",
+  // Form capture: Web3Forms (https://web3forms.com). Submissions are emailed
+  // to the address the access key belongs to. The key is public by design
+  // (it can only send mail to you), so it is fine to commit it here.
+  // Leave web3formsKey empty and set formEndpoint to any URL that accepts a
+  // JSON POST (a Cloudflare Worker, Formspree, ...) to use something else.
+  web3formsKey: "",
+  formEndpoint: "https://api.web3forms.com/submit",
 
   // When the first batch ships, as shown on the page.
   launchLabel: "Valentijnsdag 2027",

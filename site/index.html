@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>eat dick — chocolade die door de brievenbus past</title>
   <meta name="description" content="Handgemaakte Belgische chocolade in de vorm waar je aan denkt. In een doosje dat door de brievenbus past, anoniem of met je naam erbij. Eerste batch voor Valentijnsdag 2027.">
   <meta name="theme-color" content="#1D4A3A">
@@ -231,8 +232,8 @@
         <p>Een D is een grap tussen mensen die elkaar kennen. Wie ons gebruikt om iemand lastig te vallen, krijgt geen geld terug en wij geven zijn gegevens door als dat nodig is.</p>
         <p>Liever nooit een D op de mat? Zet je adres op de nooit-meer-lijst. Wij sturen er dan niets meer heen, van niemand.</p>
       </div>
-      <form class="optout" name="nooit-meer" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-form="optout">
-        <input type="hidden" name="form-name" value="nooit-meer">
+      <form class="optout" name="nooit-meer" method="POST" data-form="optout">
+        <input type="hidden" name="formulier" value="nooit-meer">
         <p class="hp"><label>Niet invullen <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="field-row">
           <label>Postcode
@@ -285,9 +286,9 @@
 
   <!-- Waitlist dialog (the "order" step) -->
   <dialog class="order" id="order" aria-labelledby="order-title">
-    <form name="wachtlijst" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-form="waitlist" class="order-form">
+    <form name="wachtlijst" method="POST" data-form="waitlist" class="order-form">
       <button class="close" type="button" data-close aria-label="Sluiten">×</button>
-      <input type="hidden" name="form-name" value="wachtlijst">
+      <input type="hidden" name="formulier" value="wachtlijst">
       <input type="hidden" name="product">
       <input type="hidden" name="variant">
       <input type="hidden" name="prijs">
